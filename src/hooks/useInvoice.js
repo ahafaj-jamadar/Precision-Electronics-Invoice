@@ -9,7 +9,7 @@ import {
 } from "../utils/invoice";
 
 // New key (v2), because the invoice layout changed. Old drafts are simply ignored.
-const STORAGE_KEY = "quick-copy-invoice-draft-v2";
+const STORAGE_KEY = "precision-electronics-invoice-draft";
 
 // Restore the draft after a refresh. Falls back to a fresh invoice on any problem.
 function loadInitialInvoice() {

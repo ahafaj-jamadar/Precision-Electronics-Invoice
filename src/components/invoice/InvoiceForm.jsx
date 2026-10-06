@@ -3,7 +3,7 @@ import CustomerCard from "./CustomerCard";
 import InvoiceItems from "./InvoiceItems";
 import InvoiceSummary from "./InvoiceSummary";
 
-const PAYMENT_CARD_KEY = "quick-copy-payment-card-open";
+const PAYMENT_CARD_KEY = "precision-electronics-payment-card-open";
 
 // Remembers whether the Discount & Payment card was left open or closed.
 function loadPaymentOpen() {
