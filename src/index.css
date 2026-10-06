@@ -1,0 +1,1187 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap");
+@import "tailwindcss";
+
+/* =====================================================================
+   1. DESIGN TOKENS
+   "static" makes Tailwind always emit these as CSS variables.
+   ===================================================================== */
+@theme static {
+  --font-sans: "Inter", "Noto Sans Devanagari", system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f9fafb;
+  --color-border: #e4e7ec;
+  --color-border-strong: #d0d5dd;
+
+  --color-text: #101828;
+  --color-text-soft: #344054;
+  --color-muted: #667085;
+
+  --color-accent: #1d4ed8;
+  --color-accent-hover: #1e40af;
+  --color-accent-soft: #eff4ff;
+
+  --color-danger: #b42318;
+  --color-danger-soft: #fef3f2;
+  --color-success: #067647;
+
+  --radius-control: 8px;
+  --radius-card: 12px;
+
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-raised: 0 4px 12px rgba(16, 24, 40, 0.08);
+}
+
+/* =====================================================================
+   2. BASE
+   ===================================================================== */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  /* Custom arrow cursor; "4 2" is the arrow tip. Delete this line for the normal cursor. */
+  cursor: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkuMzkxMTggMi4zMTk2M0M4LjQxOTUgMS41NjAyNiA3IDIuMjUyNzkgNyAzLjQ4NjJWMjguNDA5NkM3IDI5Ljk0ODEgOC45NjY0OCAzMC41OTAxIDkuODczODYgMjkuMzQ3OEwxNi4wOTg3IDIwLjgyNTNDMTYuNDc1MiAyMC4zMDk3IDE3LjA3NTIgMjAuMDA0OSAxNy43MTM2IDIwLjAwNDlIMjcuNDAzNUMyOC45MTU2IDIwLjAwNDkgMjkuNTc0IDE4LjA5MjUgMjguMzgyNCAxNy4xNjEyTDkuMzkxMTggMi4zMTk2M1oiIGZpbGw9IiNmZmZjZmMiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIxLjc1IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==') 4 2, auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Clear keyboard focus ring for everything */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Hide browser spinner arrows on number inputs */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* People who turn off animations in their system settings get instant changes */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =====================================================================
+   3. APP SHELL (header, cards)
+   ===================================================================== */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.app-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+.card-body {
+  padding: 18px;
+}
+
+/* Collapsible card: the whole title bar is the button */
+.card-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: var(--radius-card);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.card-toggle:hover {
+  background: var(--color-surface-muted);
+}
+
+.card-toggle[aria-expanded="true"] {
+  border-bottom-color: var(--color-border);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+/* What was typed, shown in the title bar while the card is closed */
+.card-summary {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 13px;
+  color: var(--color-muted);
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-chevron {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--color-muted);
+  transition: transform 0.2s ease;
+}
+
+.card-toggle[aria-expanded="true"] .card-chevron {
+  transform: rotate(180deg);
+}
+
+/* Smooth open / close: the row grows from 0 to its natural height */
+.collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.collapse[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.collapse>div {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  /* closed content cannot be tabbed into */
+  transition: visibility 0s linear 0.25s;
+}
+
+.collapse[data-open="true"]>div {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* After the opening animation has finished, nothing needs to be clipped any more */
+.collapse[data-settled="true"]>div {
+  overflow: visible;
+}
+
+/* =====================================================================
+   4. BUTTONS
+   ===================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text-soft);
+  border-color: var(--color-border-strong);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface-muted);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-muted);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.btn-icon {
+  padding: 7px;
+}
+
+/* =====================================================================
+   5. FORM FIELDS
+   ===================================================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-soft);
+}
+
+.field-input {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.field-input::placeholder {
+  color: #98a2b3;
+}
+
+.field-input:hover {
+  border-color: #98a2b3;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.field-input.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.field-input.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.15);
+}
+
+.field-input.is-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+/* Custom dropdown (Select.jsx), e.g. the payment method */
+.dd {
+  position: relative;
+}
+
+.dd-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dd-trigger[aria-expanded="true"] {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.dd-chevron {
+  flex-shrink: 0;
+  color: var(--color-muted);
+  transition: transform 0.15s;
+}
+
+.dd-trigger[aria-expanded="true"] .dd-chevron {
+  transform: rotate(180deg);
+}
+
+.dd-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  z-index: 30;
+  max-height: 240px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-raised);
+}
+
+/* Opens upwards when there is no room below */
+.dd-list.is-up {
+  top: auto;
+  bottom: calc(100% + 6px);
+}
+
+.dd-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dd-option.is-active {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.dd-option.is-selected {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.dd-option.is-selected.is-active {
+  background: var(--color-accent-soft);
+}
+
+/* Small two-choice switch, e.g. discount in rupees / percent */
+.seg {
+  display: inline-flex;
+  align-self: center;
+  gap: 2px;
+  margin: 3px;
+  padding: 2px;
+  border-radius: 6px;
+  background: var(--color-surface-muted);
+}
+
+.seg-btn {
+  min-width: 28px;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--color-muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.seg-btn:hover {
+  color: var(--color-text);
+}
+
+.seg-btn.is-active {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* A number box with the switch built into its left side */
+.input-group {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-control);
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.input-group:hover {
+  border-color: #98a2b3;
+}
+
+.input-group:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.input-group.is-invalid {
+  border-color: var(--color-danger);
+}
+
+.input-group.is-invalid:focus-within {
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.15);
+}
+
+.input-group .field-input,
+.input-group .field-input:hover,
+.input-group .field-input:focus {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-radius: 0 var(--radius-control) var(--radius-control) 0;
+  box-shadow: none;
+}
+
+/* =====================================================================
+   6. SERVICE ROWS (the form on the left)
+   ===================================================================== */
+.item-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 84px 84px 100px 36px;
+  gap: 8px;
+  align-items: start;
+}
+
+.item-head {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.item-head .num {
+  text-align: right;
+}
+
+.svc-row {
+  padding: 7px 8px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: background-color 0.12s;
+}
+
+.svc-row.is-active {
+  background: var(--color-accent-soft);
+}
+
+.svc-row:last-child {
+  margin-bottom: 0;
+}
+
+
+.svc-name {
+  padding-top: 9px;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.svc-row.is-active .svc-name {
+  color: var(--color-text);
+}
+
+.item-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.item-cell-remove {
+  padding-top: 3px;
+}
+
+.mobile-label {
+  display: none;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.item-amount {
+  padding-top: 10px;
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.item-error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-danger);
+}
+
+/* =====================================================================
+   7. TOTALS BOX (form side)
+   ===================================================================== */
+/* Wrapper that keeps the totals box visible even when the card above is closed */
+.card-totals {
+  padding: 16px 18px 18px;
+}
+
+.totals {
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-muted);
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  color: var(--color-text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.totals-grand {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border-strong);
+  color: var(--color-text);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Grand Total shown alone (card closed and no discount): no divider line above it */
+.totals-grand.is-only {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* =====================================================================
+   8. PREVIEW PANEL (screen only)
+   ===================================================================== */
+.preview-panel {
+  padding: 16px;
+  background: #e9ecf1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+.preview-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.preview-sizer {
+  margin: 0 auto;
+  box-shadow: var(--shadow-raised);
+}
+
+@media (min-width: 1024px) {
+  .preview-column {
+    position: sticky;
+    top: var(--preview-top, 68px);
+    max-height: var(--preview-max-h, calc(100vh - 84px));
+    overflow-y: auto;
+    border-radius: var(--radius-card);
+  }
+}
+
+/* =====================================================================
+   9. THE A4 INVOICE PAPER
+   ===================================================================== */
+.invoice-paper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  color: #111;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.inv-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 16mm 16mm 12mm;
+}
+
+/* Faint logo in the middle of the page, behind the content.
+   It is a CSS background, so the print dialog's "Background graphics"
+   checkbox turns it on and off. */
+.inv-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  width: 120mm;
+  height: 120mm;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.12;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ----- Header: logo on top, address under it ----- */
+.inv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8mm;
+}
+
+.inv-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3mm;
+  min-width: 0;
+}
+
+/* Original square logo shown as a wide banner (centre strip, label stays big) */
+.inv-logo {
+  display: block;
+  width: 75mm;
+  max-width: none;
+  height: 24mm;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 3mm;
+}
+
+/* Fallback shown only when the logo file is missing */
+.inv-brand-fallback {
+  display: flex;
+  align-items: center;
+  gap: 5mm;
+}
+
+.inv-monogram {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 24mm;
+  height: 24mm;
+  border: 1.5px solid #111;
+  border-radius: 4mm;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.inv-shop-name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.inv-shop-address {
+  padding-left: 2mm;
+  color: #555;
+  font-size: 12px;
+  white-space: pre-line;
+}
+
+.inv-title {
+  flex-shrink: 0;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: #111;
+}
+
+/* ----- Info strip ----- */
+.inv-strip {
+  display: grid;
+  grid-template-columns: 1.7fr 1.2fr 1fr 1fr;
+  gap: 4mm;
+  margin-top: 9mm;
+  padding: 4mm 5mm;
+  border-radius: 3mm;
+  background: #f4f4f5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.inv-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.inv-value {
+  margin-top: 2px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----- Customer ----- */
+.inv-billto {
+  display: flex;
+  gap: 10mm;
+  margin-top: 7mm;
+}
+
+/* ----- Items table ----- */
+.inv-table {
+  width: 100%;
+  margin-top: 8mm;
+  border-collapse: collapse;
+}
+
+.inv-table thead {
+  display: table-header-group;
+}
+
+.inv-table th {
+  padding: 10px 8px;
+  border-bottom: 1.5px solid #111;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: left;
+  color: #444;
+}
+
+.inv-table td {
+  padding: 11px 8px;
+  border-bottom: 1px solid #e4e4e7;
+  vertical-align: top;
+}
+
+.inv-table tbody tr:last-child td {
+  border-bottom: 1.5px solid #111;
+}
+
+.inv-table tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.inv-table .col-index {
+  width: 30px;
+  color: #888;
+}
+
+.inv-table .col-service {
+  font-weight: 500;
+}
+
+.inv-table .col-num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.inv-table th.col-num,
+.inv-table td.col-qty {
+  width: 70px;
+}
+
+.inv-table th.col-rate,
+.inv-table td.col-rate {
+  width: 90px;
+}
+
+.inv-table th.col-amount,
+.inv-table td.col-amount {
+  width: 110px;
+  font-weight: 600;
+}
+
+.inv-empty {
+  padding: 26px 8px !important;
+  text-align: center;
+  color: #999;
+}
+
+/* ----- Bottom: amount in words (left) + totals (right) ----- */
+.inv-bottom {
+  display: flex;
+  gap: 12mm;
+  margin-top: 8mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.inv-words {
+  flex: 1;
+  min-width: 0;
+}
+
+.inv-words-value {
+  margin-top: 3px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.inv-totals {
+  width: 82mm;
+  flex-shrink: 0;
+}
+
+.inv-sum-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 2px;
+  color: #444;
+  font-variant-numeric: tabular-nums;
+}
+
+.inv-grand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1.5px solid #111;
+  border-radius: 3mm;
+  background: #f4f4f5;
+  font-variant-numeric: tabular-nums;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.inv-grand-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.inv-grand-amount {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ----- Footer ----- */
+.inv-footer {
+  margin-top: auto;
+  padding-top: 14mm;
+  text-align: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.inv-footer-inner {
+  padding-top: 5mm;
+  border-top: 1px solid #d4d4d8;
+}
+
+.inv-thanks {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.inv-footer-shop {
+  margin-top: 2px;
+  font-size: 11px;
+  color: #777;
+}
+
+/* =====================================================================
+   10. TOAST
+   ===================================================================== */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 16px;
+  border-radius: var(--radius-control);
+  background: #101828;
+  color: #fff;
+  box-shadow: var(--shadow-raised);
+  transform: translateX(-50%);
+}
+
+.toast-action {
+  border: 0;
+  background: transparent;
+  color: #93c5fd;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.toast-action:hover {
+  color: #bfdbfe;
+}
+
+/* =====================================================================
+   11. RESPONSIVE (phones). Keep this AFTER the base rules above.
+   ===================================================================== */
+@media (max-width: 640px) {
+  .app-header {
+    padding: 8px 12px;
+  }
+
+  .app-brand {
+    font-size: 15px;
+  }
+
+  .card-header {
+    padding: 12px 14px;
+  }
+
+  .card-body {
+    padding: 14px;
+  }
+
+  .card-toggle {
+    padding: 12px 14px;
+  }
+
+  .card-totals {
+    padding: 12px 14px 14px;
+  }
+
+  .preview-panel {
+    padding: 10px;
+  }
+
+  /* Service rows on phones:   name ............ amount
+                               [ Qty ]  [ Rate ]  [trash]   */
+  .item-head {
+    display: none;
+  }
+
+  .item-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px 8px;
+  }
+
+  /* order of the cells in the row: 1 service, 2 qty, 3 rate, 4 amount, 5 trash */
+  .item-grid> :nth-child(1) {
+    order: 1;
+    flex: 1 1 calc(100% - 112px);
+  }
+
+  .item-grid> :nth-child(4) {
+    order: 2;
+    flex: 0 0 100px;
+  }
+
+  .item-grid> :nth-child(2) {
+    order: 3;
+    flex: 1 1 calc(50% - 27px);
+  }
+
+  .item-grid> :nth-child(3) {
+    order: 4;
+    flex: 1 1 calc(50% - 27px);
+  }
+
+  .item-grid> :nth-child(5) {
+    order: 5;
+    flex: 0 0 36px;
+  }
+
+  .mobile-label {
+    display: block;
+  }
+
+  /* The amount sits next to the name, so it needs no label of its own */
+  .item-grid> :nth-child(4) .mobile-label {
+    display: none;
+  }
+
+  .item-amount {
+    padding-top: 0;
+    font-size: 15px;
+  }
+
+  .svc-row {
+    padding: 8px 6px;
+  }
+
+  .svc-name {
+    padding-top: 0;
+    font-size: 15px;
+  }
+
+  /* 16px stops iPhones zooming in when a box is tapped; taller = easier to tap */
+  .field-input {
+    font-size: 16px;
+    min-height: 42px;
+  }
+
+  .btn {
+    min-height: 42px;
+  }
+
+  .btn-icon {
+    min-width: 40px;
+  }
+
+  .dd-option {
+    padding: 11px 12px;
+    font-size: 16px;
+  }
+
+  .seg-btn {
+    padding: 8px 12px;
+  }
+
+  .input-group .field-input {
+    min-height: 40px;
+  }
+}
+
+/* =====================================================================
+   12. PRINT: A4 portrait, invoice only. Keep this LAST.
+   ===================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    width: 210mm;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  /* Hide the whole application UI */
+  .no-print,
+  .app-header,
+  .preview-label,
+  .toast {
+    display: none !important;
+  }
+
+  /* Remove the layout wrappers around the paper */
+  .app-main,
+  .app-grid {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-column {
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .preview-panel {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+  }
+
+  .preview-sizer {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* The paper itself: real size, no screen scaling */
+  .invoice-paper {
+    width: 210mm !important;
+    min-height: 296mm !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
