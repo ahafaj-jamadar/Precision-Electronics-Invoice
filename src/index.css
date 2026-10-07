@@ -293,6 +293,13 @@ input[type="number"]::-webkit-inner-spin-button {
   padding: 7px;
 }
 
+/* Square icon-only button, e.g. Share in the header */
+.btn-square {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+}
+
 /* =====================================================================
    5. FORM FIELDS
    ===================================================================== */
@@ -540,7 +547,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .svc-row:last-child {
   margin-bottom: 0;
 }
-
 
 .svc-name {
   padding-top: 9px;
@@ -1033,7 +1039,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
   /* Service rows on phones:   name ............ amount
                                [ Qty ]  [ Rate ]  [trash]   */
-  .item-head {
+  .item-grid.item-head {
     display: none;
   }
 
@@ -1107,6 +1113,11 @@ input[type="number"]::-webkit-inner-spin-button {
     min-width: 40px;
   }
 
+  .btn-square {
+    width: 42px;
+    height: 42px;
+  }
+
   .dd-option {
     padding: 11px 12px;
     font-size: 16px;
@@ -1118,6 +1129,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .input-group .field-input {
     min-height: 40px;
+  }
+}
+
+/* Very narrow phones: the header's New Invoice button shows only its icon */
+@media (max-width: 479px) {
+  .btn-new-compact {
+    width: 42px;
+    padding: 0;
   }
 }
 
