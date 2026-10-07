@@ -1,4 +1,4 @@
-# Quick Copy Invoice Generator
+# Precision Electronics Invoice Generator
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -7,7 +7,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 
-![Made for Quick Copy](https://img.shields.io/badge/Made_for-Quick_Copy-FB5130?style=for-the-badge)
+![Made for Precision Electronics](https://img.shields.io/badge/Made_for-Quick_Copy-FB5130?style=for-the-badge)
 
 A fast, simple invoice maker for a Xerox / photocopy shop. Type a quantity next to each service, check the live A4 preview, and print.
 

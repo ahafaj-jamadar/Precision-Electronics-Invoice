@@ -718,15 +718,16 @@ input[type="number"]::-webkit-inner-spin-button {
   min-width: 0;
 }
 
-/* Original square logo shown as a wide banner (centre strip, label stays big) */
+/* The logo fills the rounded square (where the initials normally are) */
+.inv-monogram.has-logo {
+  overflow: hidden;
+}
+
 .inv-logo {
   display: block;
-  width: 75mm;
-  max-width: none;
-  height: 24mm;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 3mm;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* Fallback shown only when the logo file is missing */

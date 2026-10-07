@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SHOP } from "../../constants/shop";
 import { formatDisplayDate, formatDisplayTime } from "../../utils/invoice";
 
-// "Quick Copy" -> "QC". Shown only if the logo file can't be loaded.
+// "Precision Electronics" -> "PE". Shown only if the logo file can't be loaded.
 function getInitials(name) {
     return name
         .split(/\s+/)
@@ -21,23 +21,26 @@ export default function InvoiceHeader({ invoiceNumber, createdAt, paymentLabel }
         <>
             <header className="inv-header">
                 <div className="inv-brand">
-                    {logoFailed ? (
-                        // Fallback only: the name is shown when there is no logo image.
-                        <div className="inv-brand-fallback">
-                            <div className="inv-monogram" aria-hidden="true">
-                                {getInitials(SHOP.name)}
-                            </div>
-                            <div className="inv-shop-name">{SHOP.name}</div>
+                    <div className="inv-brand-fallback">
+                        {/* The rounded square: holds the logo, or the initials if there is no logo */}
+                        <div
+                            className={`inv-monogram ${logoFailed ? "" : "has-logo"}`}
+                            aria-hidden={logoFailed ? "true" : undefined}
+                        >
+                            {logoFailed ? (
+                                getInitials(SHOP.name)
+                            ) : (
+                                <img
+                                    src={SHOP.logo}
+                                    alt={`${SHOP.name} logo`}
+                                    className="inv-logo"
+                                    draggable="false"
+                                    onError={() => setLogoFailed(true)}
+                                />
+                            )}
                         </div>
-                    ) : (
-                        <img
-                            src={SHOP.logo}
-                            alt={`${SHOP.name} logo`}
-                            className="inv-logo"
-                            onError={() => setLogoFailed(true)}
-                            draggable="false"
-                        />
-                    )}
+                        <div className="inv-shop-name">{SHOP.name}</div>
+                    </div>
                     <div className="inv-shop-address">{SHOP.address}</div>
                 </div>
 
