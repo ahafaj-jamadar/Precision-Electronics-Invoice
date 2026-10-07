@@ -11,11 +11,13 @@ const selectOnFocus = (e) => e.target.select();
 
 export default function InvoiceItemRow({
     item,
+    serial, // position on the invoice (1, 2, 3 ...), or undefined if not on the invoice
     errors = {},
     showErrors,
     focusRequest,
     onChange,
     onRemove,
+    onSettle,
 }) {
     const nameRef = useRef(null);
     const [touched, setTouched] = useState({});
@@ -46,22 +48,32 @@ export default function InvoiceItemRow({
         <div className={`svc-row ${active ? "is-active" : ""}`}>
             <div className="item-grid">
                 <div className="item-cell item-cell-service">
-                    {isCustom ? (
-                        <input
-                            ref={nameRef}
-                            data-field="name"
-                            type="text"
-                            className={`field-input ${shown("service") ? "is-invalid" : ""}`}
-                            aria-label="Custom service name"
-                            aria-invalid={shown("service") || undefined}
-                            placeholder="Service name, e.g. Document Binding"
-                            value={item.customName}
-                            onChange={(e) => onChange({ customName: e.target.value })}
-                            onBlur={touch("service")}
-                        />
-                    ) : (
-                        <span className="svc-name">{getItemName(item)}</span>
-                    )}
+                    <div className="svc-line">
+                        <span
+                            className={`serial-badge ${serial ? "" : "is-empty"}`}
+                            title="Position on the invoice"
+                            aria-hidden="true"
+                        >
+                            {serial ?? ""}
+                        </span>
+
+                        {isCustom ? (
+                            <input
+                                ref={nameRef}
+                                data-field="name"
+                                type="text"
+                                className={`field-input ${shown("service") ? "is-invalid" : ""}`}
+                                aria-label="Custom service name"
+                                aria-invalid={shown("service") || undefined}
+                                placeholder="Service name, e.g. Document Binding"
+                                value={item.customName}
+                                onChange={(e) => onChange({ customName: e.target.value })}
+                                onBlur={touch("service")}
+                            />
+                        ) : (
+                            <span className="svc-name">{getItemName(item)}</span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="item-cell">
@@ -75,6 +87,7 @@ export default function InvoiceItemRow({
                         value={item.quantity}
                         onFocus={selectOnFocus}
                         onChange={(e) => onChange({ quantity: e.target.value })}
+                        onBlur={onSettle}
                     />
                 </div>
 

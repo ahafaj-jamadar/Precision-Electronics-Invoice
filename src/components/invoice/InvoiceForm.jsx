@@ -51,6 +51,7 @@ export default function InvoiceForm({ inv, showErrors }) {
                 onAddCustom={inv.addCustomItem}
                 onUpdate={inv.updateItem}
                 onRemove={inv.removeItem}
+                onSettle={inv.settleItem}
                 onJumpToDiscount={jumpToDiscount}
             />
 

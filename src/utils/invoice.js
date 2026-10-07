@@ -41,6 +41,20 @@ export function getItemName(item) {
     return getService(item.serviceId)?.name ?? "";
 }
 
+// The rows that appear on the invoice, in the order they were added.
+// (Rows without a recorded order, for example from an old saved draft, keep their list order.)
+export function getInvoiceRows(items) {
+    return items
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => isItemActive(item) && getItemName(item))
+        .sort(
+            (a, b) =>
+                (a.item.order ?? Infinity) - (b.item.order ?? Infinity) ||
+                a.index - b.index
+        )
+        .map(({ item }) => item);
+}
+
 /* ---------- Creating invoices and items ---------- */
 
 export function createId() {
@@ -52,7 +66,7 @@ export function createId() {
 
 // Quantity starts empty (= 0), so the row stays off the invoice until used.
 export function createItem({ serviceId = "", rate = "", quantity = "" } = {}) {
-    return { id: createId(), serviceId, customName: "", quantity, rate };
+    return { id: createId(), serviceId, customName: "", quantity, rate, order: null };
 }
 
 // One ready-made row for every service in services.js, with its default rate.

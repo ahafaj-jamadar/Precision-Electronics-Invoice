@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import Button from "../ui/Button";
 import InvoiceItemRow from "./InvoiceItemRow";
+import { getInvoiceRows } from "../../utils/invoice";
 
 export default function InvoiceItems({
     items,
@@ -11,8 +12,14 @@ export default function InvoiceItems({
     onAddCustom,
     onUpdate,
     onRemove,
+    onSettle,
     onJumpToDiscount,
 }) {
+    // Position of each service on the invoice: 1, 2, 3 ... in the order they were added.
+    const serials = new Map(
+        getInvoiceRows(items).map((item, index) => [item.id, index + 1])
+    );
+
     // Enter jumps to the next Quantity box (or to a custom row's name box).
     // After the last row it jumps to Discount. Tab still moves Quantity → Rate as normal.
     function handleKeyDown(e) {
@@ -76,11 +83,13 @@ export default function InvoiceItems({
                         <InvoiceItemRow
                             key={item.id}
                             item={item}
+                            serial={serials.get(item.id)}
                             errors={errors[item.id]}
                             showErrors={showErrors}
                             focusRequest={focusRequest}
                             onChange={(changes) => onUpdate(item.id, changes)}
                             onRemove={() => onRemove(item.id)}
+                            onSettle={() => onSettle(item.id)}
                         />
                     ))}
                 </div>

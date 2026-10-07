@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { calculateTotals } from "../utils/calculations";
+import { calculateTotals, isItemActive } from "../utils/calculations";
 import {
     createCustomItem,
     createEmptyInvoice,
@@ -63,11 +63,30 @@ export default function useInvoice() {
     }
 
     // Changes only this invoice, never the default prices in services.js.
+    // The first time a service gets a quantity, it takes the next place on the invoice.
     function updateItem(itemId, changes) {
+        setInvoice((prev) => {
+            const nextOrder = Math.max(0, ...prev.items.map((i) => i.order ?? 0)) + 1;
+            return {
+                ...prev,
+                items: prev.items.map((item) => {
+                    if (item.id !== itemId) return item;
+                    const next = { ...item, ...changes };
+                    if (isItemActive(next) && next.order == null) next.order = nextOrder;
+                    return next;
+                }),
+            };
+        });
+    }
+
+    // Called when a Quantity box loses focus: a service left empty gives up its place.
+    function settleItem(itemId) {
         setInvoice((prev) => ({
             ...prev,
             items: prev.items.map((item) =>
-                item.id === itemId ? { ...item, ...changes } : item
+                item.id === itemId && !isItemActive(item) && item.order != null
+                    ? { ...item, order: null }
+                    : item
             ),
         }));
     }
@@ -112,6 +131,7 @@ export default function useInvoice() {
         focusRequest,
         addCustomItem,
         updateItem,
+        settleItem,
         removeItem,
         setDiscount,
         setDiscountType,

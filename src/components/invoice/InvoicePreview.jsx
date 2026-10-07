@@ -3,17 +3,9 @@ import InvoiceHeader from "./InvoiceHeader";
 import InvoiceFooter from "./InvoiceFooter";
 import InvoiceWatermark from "./InvoiceWatermark";
 import { PAYMENT_METHODS } from "../../constants/paymentMethods";
-import {
-    calculateItemTotal,
-    isItemActive,
-    toNumber,
-} from "../../utils/calculations";
-import {
-    amountInWords,
-    formatCurrency,
-    formatNumber,
-} from "../../utils/currency";
-import { getItemName } from "../../utils/invoice";
+import { calculateItemTotal, toNumber } from "../../utils/calculations";
+import { amountInWords, formatCurrency, formatNumber } from "../../utils/currency";
+import { getInvoiceRows, getItemName } from "../../utils/invoice";
 
 // 210 mm expressed in CSS pixels (210 / 25.4 * 96).
 const PAPER_WIDTH_PX = 793.7;
@@ -97,9 +89,8 @@ export default function InvoicePreview({ invoice, totals }) {
     }, []);
 
     // Only rows with a quantity above 0 (and a name) appear on the invoice.
-    const rows = invoice.items.filter(
-        (item) => isItemActive(item) && getItemName(item)
-    );
+    // Only rows with a quantity above 0 appear, in the order they were added.
+    const rows = getInvoiceRows(invoice.items);
     const paymentLabel =
         PAYMENT_METHODS.find((p) => p.id === invoice.paymentMethod)?.label ?? "";
     const customerName = invoice.customerName.trim();
