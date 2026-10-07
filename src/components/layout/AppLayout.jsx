@@ -1,4 +1,4 @@
-import { FilePlus2, Printer, Receipt, RotateCcw } from "lucide-react";
+import { FilePlus2, Printer, Receipt, RotateCcw, Share2 } from "lucide-react";
 import Button from "../ui/Button";
 import { SHOP } from "../../constants/shop";
 
@@ -6,6 +6,8 @@ export default function AppLayout({
     onNewInvoice,
     onPrint,
     onPrintAndNew,
+    onShare,
+    sharing,
     children,
 }) {
     return (
@@ -21,6 +23,17 @@ export default function AppLayout({
                 <div className="flex items-center gap-2">
                     <Button icon={RotateCcw} aria-label="New Invoice" onClick={onNewInvoice}>
                         <span className="hidden min-[360px]:inline">New Invoice</span>
+                    </Button>
+
+                    {/* Icon only on smaller screens; the word shows from large screens up */}
+                    <Button
+                        icon={Share2}
+                        aria-label="Share invoice"
+                        title="Share invoice"
+                        disabled={sharing}
+                        onClick={onShare}
+                    >
+                        <span className="hidden lg:inline">Share</span>
                     </Button>
 
                     {/* Hidden on phones: the same buttons appear under the preview there */}
