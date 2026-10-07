@@ -7,7 +7,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 
-![Made for Precision Electronics](https://img.shields.io/badge/Made_for-Quick_Copy-FB5130?style=for-the-badge)
+![Made for Precision Electronics](https://img.shields.io/badge/Made_for-Precision_Electronics-FB5130?style=for-the-badge)
 
 A fast, simple invoice maker for a Xerox / photocopy shop. Type a quantity next to each service, check the live A4 preview, and print.
 
