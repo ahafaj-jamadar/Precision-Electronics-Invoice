@@ -65,6 +65,7 @@ export function createId() {
 }
 
 // Quantity starts empty (= 0), so the row stays off the invoice until used.
+// "order" is its place on the invoice (set when it first gets a quantity).
 export function createItem({ serviceId = "", rate = "", quantity = "" } = {}) {
     return { id: createId(), serviceId, customName: "", quantity, rate, order: null };
 }

@@ -48,7 +48,8 @@ export default function useInvoice() {
 
     // Calculated values (never stored).
     const totals = useMemo(
-        () => calculateTotals(invoice.items, invoice.discount, invoice.discountType),
+        () =>
+            calculateTotals(invoice.items, invoice.discount, invoice.discountType),
         [invoice.items, invoice.discount, invoice.discountType]
     );
     const validation = useMemo(() => validateInvoice(invoice), [invoice]);

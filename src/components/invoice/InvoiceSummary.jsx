@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import Collapse from "../ui/Collapse";
 import Select from "../ui/Select";
 import { PAYMENT_METHODS } from "../../constants/paymentMethods";
-import { formatCurrency } from "../../utils/currency";
+import { formatCurrency, formatSignedCurrency } from "../../utils/currency";
 import { numberInputProps } from "../../utils/inputProps";
 
 export default function InvoiceSummary({
@@ -122,6 +122,12 @@ export default function InvoiceSummary({
                                     {formatCurrency(totals.discount)}
                                 </span>
                             </div>
+                            {totals.roundOff !== 0 && (
+                                <div className="totals-row">
+                                    <span>Round off</span>
+                                    <span>{formatSignedCurrency(totals.roundOff)}</span>
+                                </div>
+                            )}
                         </>
                     )}
                     <div className={`totals-row totals-grand ${compact ? "is-only" : ""}`}>

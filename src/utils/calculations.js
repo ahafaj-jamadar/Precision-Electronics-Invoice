@@ -40,12 +40,24 @@ export function calculateGrandTotal(subtotal, discount) {
     return Math.max(0, roundMoney(subtotal - discount));
 }
 
+// How much is added (+) or taken off (−) to reach the nearest whole rupee.
+export function calculateRoundOff(amount) {
+    return roundMoney(Math.round(amount) - amount);
+}
+
 // Convenience: everything at once.
+// A percentage discount usually leaves paise, so then the total is rounded to the
+// nearest rupee. With a rupee discount (or none) the total is left exactly as calculated.
 export function calculateTotals(items, discountInput, discountType = "amount") {
     const subtotal = calculateSubtotal(items);
     const discount = calculateDiscount(discountInput, subtotal, discountType);
-    const grandTotal = calculateGrandTotal(subtotal, discount);
-    return { subtotal, discount, grandTotal };
+    const beforeRounding = calculateGrandTotal(subtotal, discount);
+    const roundOff =
+        discountType === "percent" && discount > 0
+            ? calculateRoundOff(beforeRounding)
+            : 0;
+    const grandTotal = Math.max(0, roundMoney(beforeRounding + roundOff));
+    return { subtotal, discount, roundOff, grandTotal };
 }
 
 // A row counts only once a quantity above 0 has been entered.

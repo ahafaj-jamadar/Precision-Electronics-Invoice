@@ -4,7 +4,7 @@ import InvoiceFooter from "./InvoiceFooter";
 import InvoiceWatermark from "./InvoiceWatermark";
 import { PAYMENT_METHODS } from "../../constants/paymentMethods";
 import { calculateItemTotal, toNumber } from "../../utils/calculations";
-import { amountInWords, formatCurrency, formatNumber } from "../../utils/currency";
+import { amountInWords, formatCurrency, formatNumber, formatSignedCurrency } from "../../utils/currency";
 import { getInvoiceRows, getItemName } from "../../utils/invoice";
 
 // 210 mm expressed in CSS pixels (210 / 25.4 * 96).
@@ -204,6 +204,12 @@ export default function InvoicePreview({ invoice, totals }) {
                                                     ` (${formatNumber(toNumber(invoice.discount))}%)`}
                                             </span>
                                             <span>− {formatCurrency(totals.discount)}</span>
+                                        </div>
+                                    )}
+                                    {totals.roundOff !== 0 && (
+                                        <div className="inv-sum-row">
+                                            <span>Round off</span>
+                                            <span>{formatSignedCurrency(totals.roundOff)}</span>
                                         </div>
                                     )}
                                     <div className="inv-grand">

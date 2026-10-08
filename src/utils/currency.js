@@ -16,6 +16,11 @@ export function formatCurrency(amount) {
     return `₹${formatNumber(amount)}`;
 }
 
+// 0.4 -> "+ ₹0.40"   |   -0.2 -> "− ₹0.20"
+export function formatSignedCurrency(amount) {
+    return `${amount < 0 ? "−" : "+"} ${formatCurrency(Math.abs(amount))}`;
+}
+
 /* ---------- Amount in words (Indian system: Lakh, Crore) ---------- */
 
 const ONES = [
